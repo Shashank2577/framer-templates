@@ -1,0 +1,78 @@
+{
+  "collection": "templates",
+  "description": "Template catalog for the Framer Template Gallery",
+  "fields": [
+    {
+      "name": "name",
+      "type": "text",
+      "required": true,
+      "description": "Template display name (e.g., 'Nexus SaaS')"
+    },
+    {
+      "name": "slug",
+      "type": "text",
+      "required": true,
+      "description": "URL-safe identifier (e.g., 'nexus-saas')"
+    },
+    {
+      "name": "category",
+      "type": "text",
+      "required": true,
+      "description": "Template category (e.g., 'SaaS / Product Landing Page')"
+    },
+    {
+      "name": "description",
+      "type": "richtext",
+      "required": true,
+      "description": "Short description of the template (2-3 sentences)"
+    },
+    {
+      "name": "preview_image",
+      "type": "image",
+      "required": true,
+      "description": "Desktop screenshot of the template (1440x900 recommended)"
+    },
+    {
+      "name": "mobile_preview_image",
+      "type": "image",
+      "required": false,
+      "description": "Mobile screenshot of the template (375x812 recommended)"
+    },
+    {
+      "name": "remix_url",
+      "type": "url",
+      "required": true,
+      "description": "Framer remix/duplicate URL for the 'Personalize' button"
+    },
+    {
+      "name": "preview_url",
+      "type": "url",
+      "required": false,
+      "description": "Live preview URL (published Framer site)"
+    },
+    {
+      "name": "asset_prompts_json",
+      "type": "file",
+      "required": true,
+      "description": "Downloadable asset-prompts.json file"
+    },
+    {
+      "name": "color_primary",
+      "type": "text",
+      "required": true,
+      "description": "Primary color hex for display on the card"
+    },
+    {
+      "name": "tags",
+      "type": "text",
+      "required": false,
+      "description": "Comma-separated tags for filtering (e.g., 'dark-theme, animated, minimal')"
+    },
+    {
+      "name": "sections_count",
+      "type": "number",
+      "required": false,
+      "description": "Number of sections in the template"
+    }
+  ]
+}
