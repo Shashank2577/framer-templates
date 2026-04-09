@@ -15,6 +15,8 @@ export default function Navbar(props) {
     const backgroundOpacity = useTransform(scrollY, [0, 50], [0, 0.8])
     const backdropBlur = useTransform(scrollY, [0, 50], ["blur(0px)", "blur(12px)"])
     const borderOpacity = useTransform(scrollY, [0, 50], [0, 1])
+    const bgColor = useTransform(backgroundOpacity, (v) => `rgba(10, 10, 15, ${v})`)
+    const borderBottom = useTransform(borderOpacity, (v) => `1px solid rgba(113, 113, 122, ${v * 0.2})`)
 
     const navStyle = {
         position: isCanvas ? ("relative" as const) : ("fixed" as const),
@@ -60,9 +62,9 @@ export default function Navbar(props) {
             <motion.nav
                 style={isCanvas ? navStyle : {
                     ...navStyle,
-                    backgroundColor: useTransform(backgroundOpacity, (v) => `rgba(10, 10, 15, ${v})`),
+                    backgroundColor: bgColor,
                     backdropFilter: backdropBlur,
-                    borderBottom: useTransform(borderOpacity, (v) => `1px solid rgba(113, 113, 122, ${v * 0.2})`),
+                    borderBottom,
                 }}
             >
                 <div style={{ fontWeight: 700, fontSize: "20px", color: theme.colors.text }}>

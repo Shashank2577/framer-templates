@@ -19,6 +19,7 @@ export default function ProductScreenshot(props) {
     const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
     const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1])
     const shadowOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.5])
+    const boxShadow = useTransform(shadowOpacity, (v) => `0 40px 80px -20px rgba(124, 58, 237, ${v})`)
 
     const sectionStyle = {
         padding: "120px 0",
@@ -89,7 +90,7 @@ export default function ProductScreenshot(props) {
                             ...browserFrameStyle,
                             rotateX,
                             scale,
-                            boxShadow: useTransform(shadowOpacity, (v) => `0 40px 80px -20px rgba(124, 58, 237, ${v})`)
+                            boxShadow,
                         }}
                     >
                         {/* Browser Chrome */}

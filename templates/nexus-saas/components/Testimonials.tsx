@@ -15,6 +15,7 @@ export default function Testimonials(props) {
 
     const isCanvas = RenderTarget.current() === RenderTarget.canvas
     const isMobile = variant === "Mobile" || variant === "Tablet"
+    const borderHeight = useTransform(scrollYProgress, [0.3, 0.7], ["0%", "100%"])
 
     const sectionStyle = {
         padding: "120px 0",
@@ -127,7 +128,7 @@ export default function Testimonials(props) {
                                         top: 0,
                                         width: "4px",
                                         backgroundColor: theme.colors.primary,
-                                        height: isCanvas ? "100%" : useTransform(scrollYProgress, [0.3, 0.7], ["0%", "100%"]),
+                                        height: isCanvas ? "100%" : borderHeight,
                                     }}
                                 />
 

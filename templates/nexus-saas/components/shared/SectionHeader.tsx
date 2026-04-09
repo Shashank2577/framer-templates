@@ -1,10 +1,11 @@
 import React from "react"
 import { motion } from "framer-motion"
-import { addPropertyControls, ControlType } from "framer"
+import { addPropertyControls, ControlType, RenderTarget } from "framer"
 import { theme } from "./theme"
 
 export default function SectionHeader(props) {
     const { title, subtitle, badgeText, align, ...rest } = props
+    const isCanvas = RenderTarget.current() === RenderTarget.canvas
 
     const containerStyle = {
         fontFamily: theme.typography.fontFamily,
@@ -45,7 +46,7 @@ export default function SectionHeader(props) {
     return (
         <motion.div
             style={containerStyle}
-            initial="hidden"
+            initial={isCanvas ? "visible" : "hidden"}
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={{
