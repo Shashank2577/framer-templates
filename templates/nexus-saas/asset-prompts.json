@@ -1,0 +1,115 @@
+{
+  "template": "nexus-saas",
+  "theme": {
+    "colors": {
+      "primary": "#7c3aed",
+      "secondary": "#22c55e",
+      "background": "#0a0a0f",
+      "surface": "#1a1a2e",
+      "text": "#e4e4e7",
+      "muted": "#71717a"
+    },
+    "typography": {
+      "heading": {
+        "family": "Inter",
+        "weight": 700,
+        "scale": [56, 40, 28, 20]
+      },
+      "body": {
+        "family": "Inter",
+        "weight": 400,
+        "size": 16,
+        "lineHeight": 1.6
+      }
+    },
+    "spacing": {
+      "section_gap": 120,
+      "content_max_width": 1200,
+      "grid_gap": 24
+    },
+    "border_radius": {
+      "cards": 12,
+      "buttons": 8,
+      "images": 16
+    },
+    "image_style": {
+      "treatment": "dark-overlay-gradient",
+      "aesthetic": "minimal-3d-illustration",
+      "palette_mood": "dark-tech-vibrant-purple-green"
+    }
+  },
+  "assets": [
+    {
+      "id": "hero-illustration",
+      "type": "illustration",
+      "dimensions": "800x600",
+      "prompt": "Minimal 3D isometric illustration of a floating SaaS dashboard interface with glowing purple (#7c3aed) accent elements, dark background (#0a0a0f), soft volumetric lighting, frosted glass card elements, clean geometric shapes, no text"
+    },
+    {
+      "id": "product-screenshot",
+      "type": "illustration",
+      "dimensions": "1200x800",
+      "prompt": "Clean SaaS dashboard UI mockup showing analytics charts and data tables, dark theme with purple (#7c3aed) accent colors, modern flat design, inside a browser chrome frame, professional and polished"
+    },
+    {
+      "id": "feature-icon-speed",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of a lightning bolt, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "feature-icon-security",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of a shield with checkmark, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "feature-icon-analytics",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of a bar chart with upward trend arrow, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "feature-icon-integration",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of two puzzle pieces connecting, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "feature-icon-collaboration",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of two overlapping speech bubbles, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "feature-icon-automation",
+      "type": "icon",
+      "dimensions": "64x64",
+      "prompt": "Minimal line icon of a circular arrow with gear inside, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
+    },
+    {
+      "id": "testimonial-avatar-1",
+      "type": "photo",
+      "dimensions": "96x96",
+      "prompt": "Professional headshot of a woman in her 30s, neutral background, warm lighting, business casual, friendly smile, high quality portrait"
+    },
+    {
+      "id": "testimonial-avatar-2",
+      "type": "photo",
+      "dimensions": "96x96",
+      "prompt": "Professional headshot of a man in his 40s, neutral background, warm lighting, business casual, confident expression, high quality portrait"
+    },
+    {
+      "id": "testimonial-avatar-3",
+      "type": "photo",
+      "dimensions": "96x96",
+      "prompt": "Professional headshot of a woman in her 20s, neutral background, warm lighting, creative industry style, genuine smile, high quality portrait"
+    },
+    {
+      "id": "cta-background-pattern",
+      "type": "pattern",
+      "dimensions": "1440x400",
+      "prompt": "Subtle geometric dot grid pattern, purple (#7c3aed) dots at 10% opacity on dark background, evenly spaced, minimal and clean, tileable"
+    }
+  ]
+}
