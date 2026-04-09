@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Framer Template Asset Prompts",
+  "description": "Visual recipe for a Framer template — used as build spec and user-facing artifact",
+  "type": "object",
+  "required": ["template", "theme", "assets"],
+  "properties": {
+    "template": {
+      "type": "string",
+      "description": "Template slug (kebab-case)",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "theme": {
+      "type": "object",
+      "required": ["colors", "typography", "spacing", "border_radius", "image_style"],
+      "properties": {
+        "colors": {
+          "type": "object",
+          "required": ["primary", "secondary", "background", "surface", "text", "muted"],
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "background": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "surface": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "text": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "muted": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "required": ["heading", "body"],
+          "properties": {
+            "heading": {
+              "type": "object",
+              "required": ["family", "weight", "scale"],
+              "properties": {
+                "family": { "type": "string" },
+                "weight": { "type": "integer", "minimum": 100, "maximum": 900 },
+                "scale": {
+                  "type": "array",
+                  "items": { "type": "integer", "minimum": 10, "maximum": 200 },
+                  "minItems": 4,
+                  "maxItems": 4
+                }
+              }
+            },
+            "body": {
+              "type": "object",
+              "required": ["family", "weight", "size", "lineHeight"],
+              "properties": {
+                "family": { "type": "string" },
+                "weight": { "type": "integer", "minimum": 100, "maximum": 900 },
+                "size": { "type": "integer", "minimum": 10, "maximum": 32 },
+                "lineHeight": { "type": "number", "minimum": 1.0, "maximum": 2.5 }
+              }
+            }
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "required": ["section_gap", "content_max_width", "grid_gap"],
+          "properties": {
+            "section_gap": { "type": "integer" },
+            "content_max_width": { "type": "integer" },
+            "grid_gap": { "type": "integer" }
+          }
+        },
+        "border_radius": {
+          "type": "object",
+          "required": ["cards", "buttons", "images"],
+          "properties": {
+            "cards": { "type": "integer" },
+            "buttons": { "type": "integer" },
+            "images": { "type": "integer" }
+          }
+        },
+        "image_style": {
+          "type": "object",
+          "required": ["treatment", "aesthetic", "palette_mood"],
+          "properties": {
+            "treatment": { "type": "string" },
+            "aesthetic": { "type": "string" },
+            "palette_mood": { "type": "string" }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "dimensions", "prompt"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "type": { "type": "string", "enum": ["illustration", "photo", "icon", "pattern", "logo"] },
+          "dimensions": { "type": "string", "pattern": "^[0-9]+x[0-9]+$" },
+          "prompt": { "type": "string", "minLength": 20 }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}
