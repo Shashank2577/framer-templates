@@ -1,0 +1,15 @@
+# Framer
+.framer/
+
+# Superpowers brainstorm sessions
+.superpowers/
+
+# OMC
+.omc/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (if any tooling is added later)
+node_modules/
