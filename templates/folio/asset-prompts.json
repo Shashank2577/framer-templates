@@ -1,0 +1,103 @@
+{
+  "template": "folio",
+  "theme": {
+    "colors": {
+      "primary": "#171717",
+      "secondary": "#e5e5e5",
+      "background": "#fafafa",
+      "surface": "#ffffff",
+      "text": "#171717",
+      "muted": "#a3a3a3"
+    },
+    "typography": {
+      "heading": {
+        "family": "Playfair Display",
+        "weight": 700,
+        "scale": [72, 48, 32, 24]
+      },
+      "body": {
+        "family": "Inter",
+        "weight": 400,
+        "size": 17,
+        "lineHeight": 1.7
+      }
+    },
+    "spacing": {
+      "section_gap": 160,
+      "content_max_width": 1100,
+      "grid_gap": 20
+    },
+    "border_radius": {
+      "cards": 0,
+      "buttons": 4,
+      "images": 8
+    },
+    "image_style": {
+      "treatment": "high-contrast-natural",
+      "aesthetic": "editorial-minimal",
+      "palette_mood": "neutral-warm-clean"
+    }
+  },
+  "assets": [
+    {
+      "id": "project-image-1",
+      "type": "photo",
+      "dimensions": "1200x800",
+      "prompt": "Clean flat-lay product photography of a mobile app on a smartphone, minimal white desk setup, soft natural lighting from left, shallow depth of field, editorial style, warm neutral tones"
+    },
+    {
+      "id": "project-image-2",
+      "type": "photo",
+      "dimensions": "1200x1600",
+      "prompt": "Brand identity mockup showing business cards and letterhead on textured paper, overhead angle, soft shadows, minimalist design with black typography, warm cream background"
+    },
+    {
+      "id": "project-image-3",
+      "type": "photo",
+      "dimensions": "1200x800",
+      "prompt": "Web design project displayed on a laptop screen in a bright studio environment, clean desk, plant in background, natural lighting, modern interface visible on screen"
+    },
+    {
+      "id": "project-image-4",
+      "type": "photo",
+      "dimensions": "1200x1600",
+      "prompt": "Packaging design mockup showing a premium product box from a 45-degree angle, studio lighting, minimal background, elegant typography, matte finish texture visible"
+    },
+    {
+      "id": "about-portrait",
+      "type": "photo",
+      "dimensions": "600x800",
+      "prompt": "Creative professional portrait, person looking slightly off-camera, natural window lighting, neutral background, wearing simple black clothing, warm tones, authentic expression, editorial style"
+    },
+    {
+      "id": "project-detail-gallery-1",
+      "type": "photo",
+      "dimensions": "1400x900",
+      "prompt": "Close-up detail shot of a design project showing typography and color palette selection, printed on high-quality paper, shallow depth of field, design studio setting"
+    },
+    {
+      "id": "project-detail-gallery-2",
+      "type": "photo",
+      "dimensions": "1400x900",
+      "prompt": "Multiple screens showing responsive web design at different breakpoints, arranged on a clean desk, overhead angle, consistent design language across devices"
+    },
+    {
+      "id": "scroll-indicator",
+      "type": "icon",
+      "dimensions": "24x24",
+      "prompt": "Minimal thin arrow pointing down, 1.5px stroke, black (#171717) on transparent, simple chevron shape, elegant and understated"
+    },
+    {
+      "id": "dark-mode-toggle",
+      "type": "icon",
+      "dimensions": "24x24",
+      "prompt": "Minimal sun/moon toggle icon, 1.5px stroke, black (#171717) on transparent, half circle design representing day/night transition"
+    },
+    {
+      "id": "noise-texture",
+      "type": "pattern",
+      "dimensions": "400x400",
+      "prompt": "Very subtle film grain noise texture, monochrome, 5% opacity, fine grain, tileable seamless pattern, adds organic warmth to flat backgrounds"
+    }
+  ]
+}
