@@ -1,7 +1,7 @@
 # Folio — Template Spec
 
 **Category:** Creative Portfolio / CV
-**Design Reference:** (to be assigned from design library)
+**Design Reference:** designprompts_dev_all_styles.md — Style #29 "Swiss" (International Typographic Style)
 **Target:** Minimalist creative portfolio with light/dark mode, emphasis on visuals over text
 
 ---

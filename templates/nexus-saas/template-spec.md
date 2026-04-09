@@ -1,7 +1,7 @@
 # Nexus SaaS — Template Spec
 
 **Category:** SaaS / Product Landing Page
-**Design Reference:** (to be assigned from design library)
+**Design Reference:** designprompts_dev_all_styles.md — Style #27 "SaaS" (Minimalist Modern)
 **Target:** Modern SaaS product with dark theme, vibrant accent colors
 
 ---
