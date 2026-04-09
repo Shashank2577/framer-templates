@@ -1,5 +1,6 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { addPropertyControls, ControlType } from "framer";
 import { useTheme } from "./shared/ThemeProvider";
 import { ProjectData } from "./ProjectGrid";
 
@@ -8,17 +9,17 @@ interface ProjectDetailProps {
   onClose: () => void;
 }
 
-export default function ProjectDetail({ project, onClose }: ProjectDetailProps) {
+function ProjectDetail({ project, onClose }: ProjectDetailProps) {
   const { colors } = useTheme();
 
   return (
     <AnimatePresence>
       {project && (
         <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          style={{ overflow: "hidden", marginTop: "40px" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{ marginTop: "40px" }}
         >
           <div style={{
             backgroundColor: colors.surface,
@@ -119,3 +120,21 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
     </AnimatePresence>
   );
 }
+
+export default ProjectDetail;
+
+addPropertyControls(ProjectDetail, {
+  project: {
+    type: ControlType.Object,
+    controls: {
+      id: { type: ControlType.String },
+      title: { type: ControlType.String },
+      category: { type: ControlType.String },
+      imageUrl: { type: ControlType.Image },
+      description: { type: ControlType.String, displayTextArea: true },
+      role: { type: ControlType.String },
+      date: { type: ControlType.String },
+    },
+    optional: true,
+  },
+});

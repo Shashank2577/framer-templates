@@ -48,14 +48,15 @@ export default function Timeline({ entries = defaultEntries, layoutVariant = "De
                zIndex: 0
              }}
           >
-            <svg style={{ width: "2px", height: "100%" }} preserveAspectRatio="none">
+            <svg viewBox="0 0 2 100" preserveAspectRatio="none" style={{ width: "2px", height: "100%" }}>
               {/* Background line */}
-              <line x1="1" y1="0" x2="1" y2="100%" stroke={colors.border} strokeWidth="2" strokeDasharray="4 4" />
+              <path d="M1,0 L1,100" stroke={colors.border} strokeWidth="2" strokeDasharray="4 4" fill="none" />
               {/* Drawn line */}
-              <motion.line
-                x1="1" y1="0" x2="1" y2="100%"
+              <motion.path
+                d="M1,0 L1,100"
                 stroke={colors.accent}
                 strokeWidth="2"
+                fill="none"
                 style={{ pathLength: scrollYProgress }}
               />
             </svg>

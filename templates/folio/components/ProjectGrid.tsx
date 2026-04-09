@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, LayoutGroup } from "framer-motion";
 import { addPropertyControls, ControlType } from "framer";
 import { useTheme } from "./shared/ThemeProvider";
 import { Container } from "./shared/Container";
@@ -64,47 +64,41 @@ const ProjectCard = ({ project, onClick }: { project: ProjectData; onClick: () =
         transition={{ duration: 0.4 }}
       />
 
-      {/* Overlay */}
+      {/* Overlay — color-inversion hover, not opacity fade */}
       <motion.div
         variants={{
-          rest: { opacity: 0 },
-          hover: { opacity: 1 }
+          rest: { y: "100%" },
+          hover: { y: 0 }
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         style={{
           position: "absolute",
-          inset: 0,
-          background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%)",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: colors.text,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
           padding: "32px",
         }}
       >
-        <motion.div
-          variants={{
-            rest: { y: 20 },
-            hover: { y: 0 }
-          }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
-          <h3 style={{
-            color: "#fff",
-            margin: "0 0 8px 0",
-            fontFamily: "'Playfair Display', serif",
-            fontSize: "24px"
-          }}>
-            {project.title}
-          </h3>
-          <span style={{
-            color: "#ccc",
-            fontSize: "14px",
-            textTransform: "uppercase",
-            letterSpacing: "0.1em"
-          }}>
-            {project.category}
-          </span>
-        </motion.div>
+        <h3 style={{
+          color: colors.background,
+          margin: "0 0 8px 0",
+          fontFamily: "'Playfair Display', serif",
+          fontSize: "24px"
+        }}>
+          {project.title}
+        </h3>
+        <span style={{
+          color: colors.muted,
+          fontSize: "14px",
+          textTransform: "uppercase",
+          letterSpacing: "0.1em"
+        }}>
+          {project.category}
+        </span>
       </motion.div>
     </motion.div>
   );
@@ -120,25 +114,27 @@ export default function ProjectGrid({ projects = defaultProjects, layoutVariant 
       <Container>
         <SectionLabel number="01." title="Selected Work" />
 
-        <div style={{
-          display: "block",
-          columnCount: columnCount,
-          columnGap: "20px",
-        }}>
-          {projects.map((project) => (
-            <div key={project.id} style={{ breakInside: "avoid" }}>
-              <ProjectCard
-                project={project}
-                onClick={() => setSelectedProject(project)}
-              />
-            </div>
-          ))}
-        </div>
+        <LayoutGroup>
+          <div style={{
+            display: "block",
+            columnCount: columnCount,
+            columnGap: "20px",
+          }}>
+            {projects.map((project) => (
+              <div key={project.id} style={{ breakInside: "avoid" }}>
+                <ProjectCard
+                  project={project}
+                  onClick={() => setSelectedProject(project)}
+                />
+              </div>
+            ))}
+          </div>
 
-        <ProjectDetail
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
+          <ProjectDetail
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        </LayoutGroup>
       </Container>
     </section>
   );
