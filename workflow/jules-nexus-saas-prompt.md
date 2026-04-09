@@ -1,340 +1,219 @@
-# Jules Task: Build Nexus SaaS Template
+# Jules Task: Build Nexus SaaS Template in Framer
 
-This is the complete, self-contained prompt for a Jules session to build the Nexus SaaS Framer template.
-Paste this entire file into Jules. It includes the task instructions, template spec, asset prompts, and design system reference.
-
----
-
-# Jules Session: Build Framer Template
-
-## Your Task
-
-Build a complete Framer-compatible website template from the attached design spec.
-
-## Inputs
-
-You have been given:
-1. **template-spec.md** — section-by-section layout blueprint
-2. **asset-prompts.json** — complete visual properties (colors, typography, spacing, image styles)
-
-## What To Build
-
-### React Code Components
-
-Framer supports React code components. For each section in the spec, create a React component:
-
-- Use the exact colors, fonts, and spacing from `asset-prompts.json`
-- Use CSS-in-JS (inline styles or styled-components) — Framer handles both
-- Each component should be self-contained with responsive breakpoints:
-  - Desktop: 1440px
-  - Tablet: 768px
-  - Mobile: 375px
-- Export each component as a default export
-- Use Framer Motion for animations (scroll-triggered reveals, hover states)
-
-### File Structure
-
-```
-components/
-  Hero.tsx
-  LogoBar.tsx
-  Features.tsx
-  [Section].tsx        # One file per section from the spec
-  shared/
-    theme.ts           # Export colors, fonts, spacing from asset-prompts.json
-    Container.tsx       # Reusable max-width container
-```
-
-### Component Requirements
-
-1. **Props**: Each component should accept content props (text, images) so the template is content-editable in Framer
-2. **Framer Property Controls**: Add `addPropertyControls()` from the `framer` package so users can edit content in Framer's UI
-3. **Responsive**: Use CSS media queries or Framer's responsive utilities
-4. **Animations**: Use `framer-motion` for scroll-triggered entrance animations and hover states
-
-### Assets
-
-For each asset in `asset-prompts.json`:
-- If type is `icon`: create as an SVG React component
-- If type is `illustration` or `photo`: use the prompt to generate with an AI image tool, or use a placeholder from Unsplash that matches the described aesthetic
-- If type is `pattern`: create as a CSS background or SVG
-- If type is `logo`: create as SVG placeholder text
-
-### Deliverables
-
-1. All React component files in a `components/` directory
-2. A `preview.html` that renders all sections in order (for screenshot/preview)
-3. A `SETUP.md` explaining how to import each component into Framer
-4. Screenshots of the assembled template at desktop and mobile widths
-
-### Quality Checklist
-
-- [ ] All colors match asset-prompts.json exactly
-- [ ] Typography matches (family, weight, size scale)
-- [ ] Spacing matches (section gaps, max width, grid gaps)
-- [ ] Responsive at all 3 breakpoints
-- [ ] Animations are subtle and performant
-- [ ] All components have Framer property controls
-- [ ] No hardcoded content — everything via props
-
---- TEMPLATE SPEC ---
-
-# Nexus SaaS — Template Spec
-
-**Category:** SaaS / Product Landing Page
-**Design Reference:** designprompts_dev_all_styles.md — Style #27 "SaaS" (Minimalist Modern)
-**Target:** Modern SaaS product with dark theme, vibrant accent colors
+Build a dark-themed SaaS landing page as a Framer project. This template should showcase Framer's strengths — motion, interactivity, and component composition — not just static layout.
 
 ---
 
-## Page Structure
+## Platform: Framer
 
-### Section 1: Navigation Bar
-- **Layout:** Fixed top, full-width, transparent background that fills on scroll
-- **Content:** Logo (left), nav links center-aligned (Features, Pricing, FAQ), CTA button (right)
-- **Behavior:** Blur backdrop on scroll, mobile hamburger menu at 768px
-- **Height:** 72px desktop, 64px mobile
+You are building inside **Framer** (framer.com). Key constraints:
 
-### Section 2: Hero
-- **Layout:** Two-column on desktop (60/40 split), stacked on mobile
-- **Left column:** Overline tag ("NEW: Feature X"), H1 headline (max 8 words), body paragraph (2-3 lines), two buttons (primary CTA + secondary ghost button)
-- **Right column:** Hero illustration/product screenshot with subtle float animation
-- **Height:** 100vh minus nav height
-- **Background:** Gradient from background color to slightly lighter surface color
+- **Code components** use React + TypeScript, bundled by Framer's compiler
+- Only `framer` and `framer-motion` are available as imports (no npm)
+- Use `addPropertyControls` from `"framer"` so users can edit content in Framer's visual editor
+- Use **CSS modules** or inline styles (no Tailwind, no styled-components)
+- Responsive design via Framer's **responsive variants** (Desktop / Tablet / Mobile), not CSS media queries
+- Assets: use placeholder images from `https://images.unsplash.com` with relevant queries
 
-### Section 3: Logo Bar
-- **Layout:** Single row, horizontally centered, grayscale logos
-- **Content:** 5-6 company logos with "Trusted by" label above
-- **Spacing:** Even distribution with 48px gaps
-- **Behavior:** Logos subtly brighten on hover
+## What Makes This a Great Framer Template
 
-### Section 4: Features Grid
-- **Layout:** 3-column grid on desktop, 2-column tablet, 1-column mobile
-- **Per card:** Icon (64x64), H3 title, body paragraph (2 lines)
-- **Card style:** Surface background, subtle border, 12px radius
-- **Section header:** H2 centered above grid with subtitle
-- **Count:** 6 feature cards (2 rows of 3)
+Don't just build a static page. Lean into what Framer does better than raw code:
 
-### Section 5: Product Screenshot
-- **Layout:** Full-width container with centered screenshot
-- **Content:** Browser-frame mockup containing product UI screenshot
-- **Effects:** Subtle shadow, slight perspective tilt (3D effect)
-- **Caption:** H2 above, subtitle below the screenshot
+### Motion (framer-motion)
+- **Scroll-driven animations**: Use `useScroll()` + `useTransform()` for parallax, progressive reveals, and scroll-linked opacity/scale
+- **Spring physics**: Use `type: "spring"` transitions (not `ease-out`) for organic feel — `stiffness: 100, damping: 20` as baseline
+- **Layout animations**: Use `layoutId` for shared element transitions (e.g., pricing toggle morphs between states)
+- **Gesture interactions**: `whileHover`, `whileTap`, `whileDrag` for tactile feedback
+- **Stagger**: Use `staggerChildren` in parent variants for sequential reveals
+- **`AnimatePresence`**: For mount/unmount transitions (FAQ expand, mobile menu)
 
-### Section 6: Testimonials
-- **Layout:** 3-column on desktop, carousel on mobile
-- **Per card:** Avatar (48x48 circle), quote text (italicized), name, role/company
-- **Card style:** Surface background, left-aligned purple accent border
-- **Section header:** H2 centered above
+### Property Controls
+Every component must have `addPropertyControls()` so template users can customize:
+- Text content (titles, descriptions, button labels)
+- Colors (accent color, background)
+- Toggle sections on/off
+- Image URLs
+- Enum selectors for layout variants
 
-### Section 7: Pricing
-- **Layout:** 3 columns (Basic / Pro / Enterprise), Pro highlighted
-- **Per tier:** Tier name, price with billing period, feature list (checkmarks), CTA button
-- **Highlight:** Pro tier has primary color border, "Most Popular" badge, slightly elevated
-- **Toggle:** Monthly/Annual toggle above the cards (annual shows savings)
-
-### Section 8: FAQ
-- **Layout:** Single column, max-width 720px centered
-- **Style:** Accordion — question as trigger, answer expands/collapses
-- **Content:** 6 FAQ items
-- **Animation:** Smooth height transition on expand/collapse
-
-### Section 9: CTA Banner
-- **Layout:** Full-width colored background (primary gradient)
-- **Content:** H2 headline, subtitle, single CTA button (white on primary)
-- **Style:** Rounded container within the page max-width
-
-### Section 10: Footer
-- **Layout:** 4-column grid (Company, Product, Resources, Legal) + bottom bar
-- **Bottom bar:** Copyright, social icons (GitHub, Twitter/X, LinkedIn, Discord)
-- **Style:** Slightly darker than page background
+### Component Composition
+- Build small, reusable pieces (Button, SectionHeader, Card) that compose into sections
+- Each section is a standalone code component droppable onto the Framer canvas
+- Use Framer's `RenderTarget.canvas()` to detect preview vs. live mode
 
 ---
 
-## Responsive Breakpoints
+## Template: Nexus SaaS
 
-| Breakpoint | Width | Key Changes |
-|-----------|-------|-------------|
-| Desktop | 1440px | Full layout as described |
-| Tablet | 768px | Hero stacks, features 2-col, pricing scrolls horizontally |
-| Mobile | 375px | Everything single-column, hamburger nav, testimonials carousel |
+**Mood:** Dark, premium, tech-forward. Purple-violet energy with green success accents.
 
-## Interactions & Animations
+### Color Palette
+| Token | Value | Usage |
+|-------|-------|-------|
+| background | `#0a0a0f` | Page background |
+| surface | `#1a1a2e` | Cards, elevated elements |
+| primary | `#7c3aed` | CTAs, accents, gradients |
+| secondary | `#22c55e` | Success states, highlights |
+| text | `#e4e4e7` | Body text |
+| muted | `#71717a` | Secondary text |
 
-| Element | Trigger | Animation |
-|---------|---------|-----------|
-| All sections | Scroll into view | Fade up + slight translate Y (20px), 0.6s ease-out |
-| Feature cards | Hover | Slight lift (translateY -4px) + shadow increase |
-| Pricing cards | Hover | Scale 1.02 + shadow increase |
-| Hero illustration | Load | Gentle float (translateY oscillation, 3s loop) |
-| Logo bar logos | Hover | Grayscale → full color transition |
-| FAQ items | Click | Smooth height expand/collapse with chevron rotation |
-| Nav | Scroll past hero | Background fills from transparent to surface color |
+### Typography
+- **Headings**: Inter, weight 700, scale: 56 / 40 / 28 / 20px
+- **Body**: Inter, weight 400, 16px, line-height 1.6
 
---- ASSET PROMPTS JSON ---
+### Spacing
+- Section gap: 120px
+- Content max-width: 1200px
+- Grid gap: 24px
+- Border radius: 12px cards, 8px buttons, 16px images
 
-```json
-{
-  "template": "nexus-saas",
-  "theme": {
-    "colors": {
-      "primary": "#7c3aed",
-      "secondary": "#22c55e",
-      "background": "#0a0a0f",
-      "surface": "#1a1a2e",
-      "text": "#e4e4e7",
-      "muted": "#71717a"
-    },
-    "typography": {
-      "heading": {
-        "family": "Inter",
-        "weight": 700,
-        "scale": [56, 40, 28, 20]
-      },
-      "body": {
-        "family": "Inter",
-        "weight": 400,
-        "size": 16,
-        "lineHeight": 1.6
-      }
-    },
-    "spacing": {
-      "section_gap": 120,
-      "content_max_width": 1200,
-      "grid_gap": 24
-    },
-    "border_radius": {
-      "cards": 12,
-      "buttons": 8,
-      "images": 16
-    },
-    "image_style": {
-      "treatment": "dark-overlay-gradient",
-      "aesthetic": "minimal-3d-illustration",
-      "palette_mood": "dark-tech-vibrant-purple-green"
-    }
-  },
-  "assets": [
-    {
-      "id": "hero-illustration",
-      "type": "illustration",
-      "dimensions": "800x600",
-      "prompt": "Minimal 3D isometric illustration of a floating SaaS dashboard interface with glowing purple (#7c3aed) accent elements, dark background (#0a0a0f), soft volumetric lighting, frosted glass card elements, clean geometric shapes, no text"
-    },
-    {
-      "id": "product-screenshot",
-      "type": "illustration",
-      "dimensions": "1200x800",
-      "prompt": "Clean SaaS dashboard UI mockup showing analytics charts and data tables, dark theme with purple (#7c3aed) accent colors, modern flat design, inside a browser chrome frame, professional and polished"
-    },
-    {
-      "id": "feature-icon-speed",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of a lightning bolt, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "feature-icon-security",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of a shield with checkmark, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "feature-icon-analytics",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of a bar chart with upward trend arrow, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "feature-icon-integration",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of two puzzle pieces connecting, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "feature-icon-collaboration",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of two overlapping speech bubbles, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "feature-icon-automation",
-      "type": "icon",
-      "dimensions": "64x64",
-      "prompt": "Minimal line icon of a circular arrow with gear inside, 2px stroke weight, purple (#7c3aed) on transparent background, rounded line caps, simple geometric style"
-    },
-    {
-      "id": "testimonial-avatar-1",
-      "type": "photo",
-      "dimensions": "96x96",
-      "prompt": "Professional headshot of a woman in her 30s, neutral background, warm lighting, business casual, friendly smile, high quality portrait"
-    },
-    {
-      "id": "testimonial-avatar-2",
-      "type": "photo",
-      "dimensions": "96x96",
-      "prompt": "Professional headshot of a man in his 40s, neutral background, warm lighting, business casual, confident expression, high quality portrait"
-    },
-    {
-      "id": "testimonial-avatar-3",
-      "type": "photo",
-      "dimensions": "96x96",
-      "prompt": "Professional headshot of a woman in her 20s, neutral background, warm lighting, creative industry style, genuine smile, high quality portrait"
-    },
-    {
-      "id": "cta-background-pattern",
-      "type": "pattern",
-      "dimensions": "1440x400",
-      "prompt": "Subtle geometric dot grid pattern, purple (#7c3aed) dots at 10% opacity on dark background, evenly spaced, minimal and clean, tileable"
-    }
-  ]
-}
+---
+
+## Sections to Build
+
+### 1. Navbar
+Fixed top, transparent → filled on scroll. Logo left, links center (Features, Pricing, FAQ), CTA button right.
+
+**Framer Motion:**
+- `useScroll()` + `useTransform()` to interpolate background opacity and backdrop blur as user scrolls
+- `AnimatePresence` for mobile hamburger menu slide-in
+
+**Property Controls:** logo text, nav links array, CTA label, CTA link
+
+### 2. Hero
+Two-column (60/40) desktop, stacked mobile. Left: overline badge, H1 (max 8 words), paragraph, two buttons. Right: hero graphic.
+
+**Framer Motion:**
+- Hero graphic: `animate={{ y: [0, -10, 0] }}` with `transition: { repeat: Infinity, duration: 3, ease: "easeInOut" }`
+- Text elements: staggered entrance with `variants` and `staggerChildren: 0.12`
+- Buttons: `whileHover={{ scale: 1.04 }}` with spring transition
+- Background: radial gradient glow behind the hero graphic, animated with `useTransform` tied to scroll
+
+**Property Controls:** overline text, headline, body, primary CTA, secondary CTA, hero image URL
+
+### 3. Logo Bar
+"Trusted by" label + 5-6 grayscale logos in a row.
+
+**Framer Motion:**
+- Logos: `whileHover={{ filter: "grayscale(0)" }}` from default `filter: "grayscale(1)"`
+- Infinite scroll marquee using `animate={{ x: [0, -totalWidth] }}` with `repeat: Infinity`
+
+**Property Controls:** label text, logo image URLs array
+
+### 4. Features Grid
+Section header (H2 + subtitle) above a 3×2 grid of feature cards. Each card: icon, title, description.
+
+**Framer Motion:**
+- Cards enter with `useScroll()` on the section — `useTransform(scrollYProgress, [0, 0.3], [60, 0])` for Y offset, same for opacity
+- `whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(124,58,237,0.15)" }}` with spring
+- Icons: subtle `whileHover={{ rotate: 5 }}` 
+
+**Property Controls:** section title, subtitle, array of 6 features (icon, title, description)
+
+### 5. Product Screenshot
+Full-width browser-frame mockup with perspective tilt.
+
+**Framer Motion:**
+- Scroll-driven: `useTransform(scrollYProgress, [0, 1], ["perspective(1200px) rotateX(8deg)", "perspective(1200px) rotateX(0deg)"])` — screenshot flattens as user scrolls to it
+- Subtle shadow that deepens on scroll approach
+
+**Property Controls:** screenshot image URL, caption title, caption subtitle
+
+### 6. Testimonials
+3-column grid of testimonial cards (avatar, quote, name, role). Carousel on mobile.
+
+**Framer Motion:**
+- Cards stagger in from bottom using `variants` + `staggerChildren: 0.15`
+- Left accent border animates from height 0 to full using `useScroll`
+- `whileHover={{ scale: 1.02 }}` with spring
+
+**Property Controls:** array of testimonials (avatar URL, quote, name, role)
+
+### 7. Pricing
+Three-tier pricing (Basic / Pro / Enterprise). Pro tier highlighted with primary border + "Most Popular" badge. Monthly/Annual toggle.
+
+**Framer Motion:**
+- **`layoutId="pricing-highlight"`** on the active toggle indicator — morphs between Monthly/Annual positions
+- Cards: `whileHover={{ scale: 1.03 }}` with spring
+- Pro card entrance: slightly delayed, with `scale: [0.95, 1]` spring entrance
+- Price value: `AnimatePresence` + counter transition when toggling monthly/annual
+
+**Property Controls:** toggle labels, array of 3 tiers (name, monthly price, annual price, features list, CTA label, highlighted boolean)
+
+### 8. FAQ
+Accordion, max-width 720px centered. 6 items.
+
+**Framer Motion:**
+- `AnimatePresence` for expand/collapse with `initial={{ height: 0, opacity: 0 }}` and `animate={{ height: "auto", opacity: 1 }}`
+- Chevron: `animate={{ rotate: isOpen ? 180 : 0 }}` with spring
+- Items stagger on scroll entry
+
+**Property Controls:** array of FAQ items (question, answer)
+
+### 9. CTA Banner
+Full-width gradient background (primary → primary/80), H2 + subtitle + button in centered layout.
+
+**Framer Motion:**
+- Background gradient subtly shifts via `useTransform` tied to scroll (hue rotation or position shift)
+- Button: `whileHover={{ scale: 1.06 }}` + `whileTap={{ scale: 0.97 }}`
+
+**Property Controls:** headline, subtitle, CTA label, CTA link
+
+### 10. Footer
+4-column link grid (Company, Product, Resources, Legal) + bottom bar with copyright and social icons.
+
+**Framer Motion:**
+- Social icons: `whileHover={{ y: -2, color: "#7c3aed" }}` with spring
+- Columns stagger in on scroll
+
+**Property Controls:** column arrays (title + links), copyright text, social links
+
+---
+
+## File Structure
+
+```
+nexus-saas/
+  components/
+    shared/
+      theme.ts          # Color, typography, spacing tokens
+      Button.tsx         # Primary/secondary/ghost variants
+      SectionHeader.tsx  # H2 + subtitle + optional badge
+      Container.tsx      # Max-width wrapper
+    Navbar.tsx
+    Hero.tsx
+    LogoBar.tsx
+    FeaturesGrid.tsx
+    ProductScreenshot.tsx
+    Testimonials.tsx
+    Pricing.tsx
+    FAQ.tsx
+    CTABanner.tsx
+    Footer.tsx
+  preview.html          # Full-page preview rendering all sections
+  SETUP.md              # How to import into Framer
 ```
 
---- DESIGN SYSTEM REFERENCE ---
+## Quality Checklist
 
-## Design System: Minimalist Modern (SaaS Style #27)
+- [ ] Every component has `addPropertyControls()` with sensible defaults
+- [ ] Scroll-driven animations use `useScroll` + `useTransform` (not IntersectionObserver)
+- [ ] Layout transitions use `layoutId` where elements morph between states
+- [ ] All transitions use spring physics (not ease/linear) except intentional mechanical effects
+- [ ] `AnimatePresence` wraps all mount/unmount animations
+- [ ] Responsive via Framer responsive variants, not CSS media queries
+- [ ] No hardcoded content — everything editable via property controls
+- [ ] Dark theme colors match the palette table exactly
+- [ ] Stagger patterns use `variants` with `staggerChildren`, not manual delays
+- [ ] Components are self-contained and droppable onto Framer canvas independently
 
-### Key Design Tokens to Apply
+## Asset Prompts
 
-**Color Strategy:** Warm near-monochrome + Electric Blue gradient accent
-- Background: `#FAFAFA` (warm off-white)
-- Foreground: `#0F172A` (deep slate, not pure black)
-- Muted: `#F1F5F9` (slate-100)
-- Accent: `#0052FF` → `#4D7CFF` (Electric Blue gradient)
-- Card: `#FFFFFF`
-- Border: `#E2E8F0`
+Use these descriptions to source placeholder images:
 
-**IMPORTANT:** The asset-prompts.json uses a DARK theme (#0a0a0f background) which OVERRIDES these light tokens. Use the dark palette from asset-prompts.json as the primary theme, but adopt the design PATTERNS (gradient text, inverted sections, animated hero, section labels) from this design system.
-
-**Typography:** Dual-font system
-- Display: Calistoga (serif, warm, characterful) — for H1/H2
-- UI/Body: Inter (clean sans-serif)
-- Monospace: JetBrains Mono — for section labels, badges
-
-**Signature Elements (MUST IMPLEMENT):**
-1. Gradient text highlights on key headline words (bg-clip-text)
-2. At least one inverted contrast section (dark bg with light text + dot pattern texture)
-3. Animated hero graphic with rotating ring (60s), floating cards (4-5s bob), geometric shapes
-4. Gradient icon backgrounds (not translucent fills)
-5. Section label badges: pill shape, accent border, monospace uppercase text, animated dot
-6. Pulsing indicators in badges (scale/opacity keyframes)
-7. Gradient border effects on featured elements (2px stroke technique)
-
-**Motion:**
-- Entrance: fadeInUp (opacity 0→1, y 28→0, 0.7s, ease [0.16, 1, 0.3, 1])
-- Stagger: 0.1s between children
-- Floating: 4-5s ease-in-out infinite y-axis bob (±10px)
-- Rotating ring: 60s linear infinite
-- Hover: -translate-y-0.5, shadow deepens, brightness-110 on buttons
-
-**Shadows:**
-- Standard cards: `0 4px 6px rgba(0,0,0,0.07)`
-- Elevated: `0 20px 25px rgba(0,0,0,0.1)`
-- Accent-tinted: `0 4px 14px rgba(0,82,255,0.25)`
-
-**Border Radius:** `rounded-xl` (12px) for cards, `rounded-2xl` (16px) for prominent elements
-
-**Textures:**
-- Dot pattern: radial-gradient dots at 32px intervals, 3% opacity on dark sections
-- Radial glows: blur-[150px] accent circles at 3-6% opacity at section corners
+| ID | Type | Size | Description |
+|----|------|------|-------------|
+| hero-illustration | illustration | 800×600 | Minimal 3D isometric floating SaaS dashboard, glowing purple accents, dark bg, frosted glass cards |
+| product-screenshot | illustration | 1200×800 | Dark SaaS dashboard with analytics charts, purple accents, browser chrome frame |
+| feature-icons | SVG | 64×64 | Minimal line icons (2px stroke, purple, rounded caps): lightning bolt, shield+check, bar chart, puzzle pieces, speech bubbles, gear+arrow |
+| testimonial-avatars | photo | 96×96 | Professional headshots, neutral bg, warm lighting, business casual |
+| cta-background | pattern | 1440×400 | Subtle purple dot grid at 10% opacity on dark bg, tileable |
