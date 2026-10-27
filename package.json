@@ -1,0 +1,14 @@
+{
+  "name": "framer-templates",
+  "version": "1.0.0",
+  "description": "Framer template components and installer",
+  "scripts": {
+    "list": "node scripts/copy-components.js list",
+    "copy": "node scripts/copy-components.js",
+    "copy:nexus": "node scripts/copy-components.js nexus-saas",
+    "copy:folio": "node scripts/copy-components.js folio",
+    "copy:install": "node scripts/copy-components.js copy",
+    "plugin:dev": "cd plugin && npm run dev",
+    "plugin:build": "cd plugin && npm run build"
+  }
+}

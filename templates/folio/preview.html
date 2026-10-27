@@ -1,37 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Folio Portfolio - Preview</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: #fafafa;
-      color: #171717;
-      text-align: center;
-      padding-top: 50px;
-    }
-    h1 {
-      font-family: 'Playfair Display', serif;
-    }
-    .notice {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 24px;
-      border: 1px solid #ddd;
-      background: #fff;
-    }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Folio — Creative Portfolio Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #171717;
+            --secondary: #e5e5e5;
+            --background: #fafafa;
+            --surface: #ffffff;
+            --text: #171717;
+            --muted: #a3a3a3;
+            --border: #e5e5e5;
+
+            --section-gap: 160px;
+            --content-width: 1100px;
+            --grid-gap: 20px;
+
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #fafafa;
+            --secondary: #404040;
+            --background: #0a0a0a;
+            --surface: #171717;
+            --text: #fafafa;
+            --muted: #737373;
+            --border: #262626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            background-color: var(--background);
+            color: var(--text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: var(--surface);
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        .navbar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .navbar-nav {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .navbar-link {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .navbar-link:hover {
+            opacity: 1;
+        }
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 80px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(48px, 10vw, 72px);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .hero-title span {
+            display: inline-block;
+        }
+
+        .hero-tagline {
+            font-size: 18px;
+            opacity: 0;
+            transform: translateY(10px);
+            color: var(--muted);
+        }
+
+        .hero-tagline.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Section Container */
+        .section {
+            padding: var(--section-gap) 40px;
+        }
+
+        .section-container {
+            max-width: var(--content-width);
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 48px;
+            color: var(--muted);
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--grid-gap);
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .project-card:first-child {
+            grid-column: 1 / -1;
+        }
+
+        .project-image {
+            width: 100%;
+            aspect-ratio: 3 / 2;
+            object-fit: cover;
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.8s ease, transform 0.3s ease;
+        }
+
+        .project-card.revealed .project-image {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .project-category {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Project Detail */
+        .project-detail {
+            display: none;
+            padding: 80px 40px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-detail.active {
+            display: block;
+        }
+
+        .project-detail-content {
+            max-width: var(--content-width);
+            margin: 0 auto;
+        }
+
+        .project-detail-hero {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .project-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .project-detail-title {
+            font-size: 40px;
+        }
+
+        .project-detail-meta {
+            text-align: right;
+            color: var(--muted);
+        }
+
+        .project-detail-description {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .project-detail-gallery {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+        }
+
+        .project-detail-gallery img {
+            width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .project-detail-close {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: var(--background);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .project-detail-close:hover {
+            opacity: 0.9;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .about-portrait {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .about-bio p {
+            margin-bottom: 24px;
+        }
+
+        .about-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 32px 0;
+        }
+
+        .skill-tag {
+            padding: 8px 16px;
+            background: var(--secondary);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .resume-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--primary);
+            color: var(--background);
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .resume-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: -1px;
+            top: 0;
+            width: 2px;
+            background: var(--primary);
+            height: 0;
+            transition: height 1s ease;
+        }
+
+        .timeline.revealed .timeline-line {
+            height: 100%;
+        }
+
+        .timeline-entry {
+            position: relative;
+            padding-bottom: 48px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: var(--transition);
+        }
+
+        .timeline.revealed .timeline-entry {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: -45px;
+            top: 4px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--background);
+            border: 2px solid var(--primary);
+        }
+
+        .timeline-entry:nth-child(odd) {
+            padding-left: 80px;
+        }
+
+        .timeline-entry:nth-child(odd)::before {
+            left: 35px;
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            color: var(--muted);
+        }
+
+        /* Contact */
+        .contact {
+            text-align: center;
+            padding: 120px 40px;
+        }
+
+        .contact-heading {
+            font-size: clamp(32px, 6vw, 48px);
+            margin-bottom: 32px;
+        }
+
+        .contact-email {
+            font-size: clamp(24px, 5vw, 36px);
+            font-weight: 600;
+            margin-bottom: 48px;
+            transition: var(--transition);
+        }
+
+        .contact-email:hover {
+            opacity: 0.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .social-link {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--background);
+            border-color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 32px 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer a {
+            transition: var(--transition);
+        }
+
+        .footer a:hover {
+            color: var(--text);
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 16px;
+            opacity: 0.7;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: var(--transition);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .navbar-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero {
+                padding: 100px 20px 60px;
+            }
+
+            .section {
+                padding: 80px 20px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card:first-child {
+                grid-column: auto;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .timeline {
+                padding-left: 24px;
+            }
+
+            .timeline-entry {
+                padding-left: 0 !important;
+            }
+
+            .timeline-entry::before {
+                left: -33px !important;
+            }
+
+            .project-detail-gallery img {
+                width: 300px;
+                height: 200px;
+            }
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-portrait {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .about-portrait.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
 </head>
 <body>
-  <div class="notice">
-    <h1>Folio Template</h1>
-    <p>This is a Framer Code Component template.</p>
-    <p>To preview this template, import the components into your Framer project using the instructions in <code>SETUP.md</code>.</p>
-  </div>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="navbar-logo">Alex Chen</a>
+        <div class="navbar-nav">
+            <a href="#work" class="navbar-link">Work</a>
+            <a href="#about" class="navbar-link">About</a>
+            <a href="#contact" class="navbar-link">Contact</a>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+            </button>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1 class="hero-title" id="heroTitle"><span></span></h1>
+        <p class="hero-tagline" id="heroTagline">Creative Director & Designer crafting meaningful digital experiences</p>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section class="section" id="work">
+        <div class="section-container">
+            <p class="section-title">Selected Work</p>
+            <div class="project-grid">
+                <div class="project-card" data-project="1">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&h=800&fit=crop" alt="Flow App" class="project-image">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Flow — Productivity App</h3>
+                        <p class="project-category">Mobile Design / Brand</p>
+                    </div>
+                </div>
+                <div class="project-card" data-project="2">
+                    <img src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=1200&h=1600&fit=crop" alt="Nexus Brand" class="project-image">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Nexus Identity</h3>
+                        <p class="project-category">Brand Identity / Print</p>
+                    </div>
+                </div>
+                <div class="project-card" data-project="3">
+                    <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1200&h=800&fit=crop" alt="Lumina Platform" class="project-image">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Lumina Platform</h3>
+                        <p class="project-category">Web Design / UX</p>
+                    </div>
+                </div>
+                <div class="project-card" data-project="4">
+                    <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=1200&h=1600&fit=crop" alt="Ethereal Packaging" class="project-image">
+                    <div class="project-overlay">
+                        <h3 class="project-title">Ethereal Cosmetics</h3>
+                        <p class="project-category">Packaging / Art Direction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Detail -->
+    <section class="project-detail" id="projectDetail">
+        <div class="project-detail-content">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1400&h=900&fit=crop" alt="" class="project-detail-hero">
+            <div class="project-detail-header">
+                <h2 class="project-detail-title">Flow — Productivity App</h2>
+                <div class="project-detail-meta">
+                    <p>Lead Designer</p>
+                    <p>2023 — 2024</p>
+                </div>
+            </div>
+            <p class="project-detail-description">Flow is a mindfulness-based productivity application designed to help users achieve deep focus states. I led the complete design overhaul, creating a visual language that balances calmness with functionality. The project included extensive user research, iterative prototyping, and a comprehensive design system.</p>
+            <div class="project-detail-gallery">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1400&h=900&fit=crop" alt="Screen 1">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&h=900&fit=crop" alt="Screen 2">
+                <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1400&h=900&fit=crop" alt="Screen 3">
+            </div>
+            <br><br>
+            <button class="project-detail-close" id="closeDetail">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+                Close Project
+            </button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="section-container">
+            <p class="section-title">About</p>
+            <div class="about-grid">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop&crop=faces" alt="Portrait" class="about-portrait">
+                <div class="about-bio">
+                    <p>I'm a creative director and designer based in San Francisco, with over 10 years of experience crafting digital products for startups and Fortune 500 companies alike.</p>
+                    <p>My approach combines strategic thinking with meticulous attention to detail, resulting in work that is both beautiful and functional. I believe great design tells a story while solving real problems.</p>
+                    <p>Previously at IDEO, Google, and several Y Combinator startups. Currently available for select freelance projects.</p>
+                    <div class="about-skills">
+                        <span class="skill-tag">Brand Strategy</span>
+                        <span class="skill-tag">UI/UX Design</span>
+                        <span class="skill-tag">Art Direction</span>
+                        <span class="skill-tag">Design Systems</span>
+                        <span class="skill-tag">Motion Design</span>
+                    </div>
+                    <a href="#" class="resume-button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Download Resume
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="section">
+        <div class="section-container">
+            <p class="section-title">Experience</p>
+            <div class="timeline" id="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-entry">
+                    <h3 class="timeline-title">Creative Director</h3>
+                    <p class="timeline-date">2021 — Present</p>
+                    <p class="timeline-description">Independent Studio — Leading design for fintech and healthcare startups</p>
+                </div>
+                <div class="timeline-entry">
+                    <h3 class="timeline-title">Senior Product Designer</h3>
+                    <p class="timeline-date">2018 — 2021</p>
+                    <p class="timeline-description">Google — Material Design team, focused on accessibility and components</p>
+                </div>
+                <div class="timeline-entry">
+                    <h3 class="timeline-title">Designer</h3>
+                    <p class="timeline-date">2015 — 2018</p>
+                    <p class="timeline-description">IDEO — Consumer products, healthcare, and transportation projects</p>
+                </div>
+                <div class="timeline-entry">
+                    <h3 class="timeline-title">Design Lead</h3>
+                    <p class="timeline-date">2013 — 2015</p>
+                    <p class="timeline-description">Consulting — Built design systems for early-stage startups</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="contact-heading">Let's work together</h2>
+        <a href="mailto:hello@alexchen.design" class="contact-email">hello@alexchen.design</a>
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Dribbble">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 0 1 1.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 0 0-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0 1 12 3.475zm-3.633.803a53.896 53.896 0 0 1 3.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 0 1 4.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 0 1-2.19-5.705zM12 20.547a8.482 8.482 0 0 1-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 0 1 1.823 6.475 8.4 8.4 0 0 1-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 0 1-3.655 5.715z"/>
+                </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Behance">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/>
+                </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="GitHub">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Alex Chen. Built with Framer.</p>
+        <a href="#top" class="back-to-top">Back to top ↑</a>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Hero title typing effect
+        const heroTitle = document.getElementById('heroTitle');
+        const heroTagline = document.getElementById('heroTagline');
+        const name = 'Alex Chen';
+        const titleSpan = heroTitle.querySelector('span');
+
+        let charIndex = 0;
+        function typeTitle() {
+            if (charIndex < name.length) {
+                titleSpan.textContent += name[charIndex];
+                charIndex++;
+                setTimeout(typeTitle, 50);
+            } else {
+                setTimeout(() => {
+                    heroTagline.classList.add('visible');
+                }, 300);
+            }
+        }
+
+        setTimeout(typeTitle, 500);
+
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .about-portrait, .project-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Timeline animation
+        const timeline = document.getElementById('timeline');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    const timelineEntries = entry.target.querySelectorAll('.timeline-entry');
+                    timelineEntries.forEach((el, i) => {
+                        setTimeout(() => {
+                            el.style.transitionDelay = `${i * 0.15}s`;
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
+
+        if (timeline) {
+            timelineObserver.observe(timeline);
+        }
+
+        // Project detail
+        const projectCards = document.querySelectorAll('.project-card');
+        const projectDetail = document.getElementById('projectDetail');
+        const closeDetail = document.getElementById('closeDetail');
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                projectDetail.classList.add('active');
+                projectDetail.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        closeDetail.addEventListener('click', () => {
+            projectDetail.classList.remove('active');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

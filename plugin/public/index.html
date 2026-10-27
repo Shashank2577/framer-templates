@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template Installer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      color: #1a1a1a;
+      background: #f5f5f5;
+      padding: 16px;
+    }
+
+    .header {
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .template-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .template-card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .template-card:hover {
+      border-color: #7c3aed;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+    }
+
+    .template-card.selected {
+      border-color: #7c3aed;
+      background: #f8f5ff;
+    }
+
+    .template-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .template-description {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .template-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 10px;
+      color: #999;
+    }
+
+    .template-meta span {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .install-button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .install-button:hover {
+      background: #6d28d9;
+    }
+
+    .install-button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .progress-container {
+      margin-top: 16px;
+      display: none;
+    }
+
+    .progress-container.active {
+      display: block;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #7c3aed;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .log {
+      margin-top: 12px;
+      max-height: 150px;
+      overflow-y: auto;
+      background: #1a1a1a;
+      color: #00ff00;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .log.active {
+      display: block;
+    }
+
+    .log-entry {
+      margin-bottom: 2px;
+    }
+
+    .log-entry.success {
+      color: #00ff00;
+    }
+
+    .log-entry.error {
+      color: #ff6b6b;
+    }
+
+    .log-entry.warning {
+      color: #ffd93d;
+    }
+
+    .status-complete {
+      text-align: center;
+      padding: 24px 16px;
+      display: none;
+    }
+
+    .status-complete.active {
+      display: block;
+    }
+
+    .status-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .status-message {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .status-details {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .retry-button {
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    a {
+      color: #7c3aed;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎨 Template Installer</h1>
+    <p>Install Framer templates from GitHub</p>
+  </div>
+
+  <div id="templateList" class="template-list">
+    <p style="color: #999; text-align: center;">Loading templates...</p>
+  </div>
+
+  <button id="installBtn" class="install-button" disabled>
+    Install Selected Template
+  </button>
+
+  <div id="progressContainer" class="progress-container">
+    <div class="progress-bar">
+      <div id="progressFill" class="progress-fill"></div>
+    </div>
+    <div id="progressText" class="progress-text">Preparing...</div>
+  </div>
+
+  <div id="log" class="log"></div>
+
+  <div id="statusComplete" class="status-complete">
+    <div class="status-icon">✅</div>
+    <div class="status-message" id="completeMessage">Installation complete!</div>
+    <div class="status-details" id="completeDetails"></div>
+    <button class="retry-button" onclick="reset()">Install Another</button>
+  </div>
+
+  <script>
+    let selectedTemplate = null
+    let templates = {}
+
+    // Listen for messages from plugin
+    window.addEventListener('message', (event) => {
+      const { type, data } = event.data
+
+      switch (type) {
+        case 'templates-list':
+          templates = data.templates
+          renderTemplates()
+          break
+        case 'progress':
+          updateProgress(data)
+          break
+        case 'complete':
+          showComplete(data)
+          break
+        case 'error':
+          showError(data.message)
+          break
+        case 'warning':
+          log(data.message, 'warning')
+          break
+      }
+    })
+
+    function renderTemplates() {
+      const container = document.getElementById('templateList')
+      container.innerHTML = ''
+
+      Object.entries(templates).forEach(([id, template]) => {
+        const card = document.createElement('div')
+        card.className = 'template-card'
+        card.dataset.id = id
+        card.innerHTML = `
+          <div class="template-name">${template.name}</div>
+          <div class="template-description">${template.description}</div>
+          <div class="template-meta">
+            <span>${template.components.length} components</span>
+          </div>
+        `
+        card.onclick = () => selectTemplate(id)
+        container.appendChild(card)
+      })
+    }
+
+    function selectTemplate(id) {
+      selectedTemplate = id
+
+      // Update card selection
+      document.querySelectorAll('.template-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.id === id)
+      })
+
+      // Enable install button
+      document.getElementById('installBtn').disabled = false
+    }
+
+    function updateProgress(data) {
+      const container = document.getElementById('progressContainer')
+      const fill = document.getElementById('progressFill')
+      const text = document.getElementById('progressText')
+      const log = document.getElementById('log')
+
+      container.classList.add('active')
+      log.classList.add('active')
+
+      const progress = (data.current / data.total) * 100
+      fill.style.width = `${progress}%`
+      text.textContent = `${data.message} (${data.current}/${data.total})`
+
+      log(data.component ? `✓ ${data.component}` : data.message, 'success')
+    }
+
+    function showComplete(data) {
+      document.getElementById('progressContainer').classList.remove('active')
+      document.getElementById('log').classList.remove('active')
+
+      const complete = document.getElementById('statusComplete')
+      const message = document.getElementById('completeMessage')
+      const details = document.getElementById('completeDetails')
+
+      message.textContent = data.message
+      details.textContent = data.errorCount > 0
+        ? `${data.successCount} succeeded, ${data.errorCount} failed`
+        : 'All components installed successfully!'
+
+      complete.classList.add('active')
+      document.getElementById('templateList').style.display = 'none'
+      document.getElementById('installBtn').style.display = 'none'
+    }
+
+    function showError(message) {
+      log(`✗ ${message}`, 'error')
+    }
+
+    function log(message, type = 'success') {
+      const log = document.getElementById('log')
+      const entry = document.createElement('div')
+      entry.className = `log-entry ${type}`
+      entry.textContent = message
+      log.appendChild(entry)
+      log.scrollTop = log.scrollHeight
+    }
+
+    function reset() {
+      selectedTemplate = null
+      templates = {}
+
+      document.getElementById('templateList').style.display = 'flex'
+      document.getElementById('installBtn').style.display = 'block'
+      document.getElementById('installBtn').disabled = true
+      document.getElementById('progressContainer').classList.remove('active')
+      document.getElementById('log').classList.remove('active')
+      document.getElementById('log').innerHTML = ''
+      document.getElementById('statusComplete').classList.remove('active')
+      document.getElementById('progressFill').style.width = '0%'
+
+      // Request templates again
+      parent.postMessage({ type: 'get-templates' }, '*')
+    }
+
+    document.getElementById('installBtn').onclick = () => {
+      if (selectedTemplate) {
+        document.getElementById('templateList').style.display = 'none'
+        document.getElementById('installBtn').style.display = 'none'
+        document.getElementById('log').innerHTML = ''
+
+        parent.postMessage({
+          type: 'install-template',
+          data: { templateId: selectedTemplate }
+        }, '*')
+      }
+    }
+  </script>
+</body>
+</html>

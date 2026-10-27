@@ -1,47 +1,122 @@
-# Folio Template - Framer Setup
+# Folio Portfolio Template Setup Guide
 
-## Overview
-Folio is a minimalist creative portfolio template designed exclusively for Framer. It utilizes `framer-motion` for scroll-driven reveals, shared layout transitions, and organic spring physics.
+This guide explains how to import and use the Folio Portfolio template components in your Framer project.
 
-## Prerequisites
-- A Framer account (framer.com)
-- A new or existing Framer project
+## Quick Start (Recommended)
 
-## Installation
+**Use the copy helper script** to quickly copy component code to your clipboard:
 
-1. Open your Framer project.
-2. In the Assets panel (left sidebar), click the **+** next to "Code" to create a new Code Component.
-3. For each file in the `components/` folder of this template:
-   - Create a new code file in Framer with the same name (e.g., `Hero.tsx`).
-   - Copy the contents of the local file and paste it into the Framer code editor.
-4. Ensure you maintain the file structure, specifically the `shared/` folder.
-   - Example: Create `shared/theme.ts` in Framer and paste the contents.
-
-### Required Structure in Framer:
-```
-- shared/
-  - theme.ts
-  - ThemeProvider.tsx
-  - SectionLabel.tsx
-  - Button.tsx
-  - Container.tsx
-- Navbar.tsx
-- Hero.tsx
-- ProjectGrid.tsx
-- ProjectDetail.tsx
-- About.tsx
-- Timeline.tsx
-- Contact.tsx
-- Footer.tsx
+```bash
+# From the project root
+npm run copy:folio         # List all components
+npm run copy:folio Navbar  # Copy specific component
+npm run copy:install       # Interactive copy all components
 ```
 
-## Usage
+Then paste each component into Framer's Code Component editor.
 
-Once all components are pasted into Framer:
-1. Wrap your main page content in the `ThemeProvider` if you wish to use the global dark mode toggle.
-2. Drag and drop individual sections (Hero, ProjectGrid, About, etc.) onto your canvas.
-3. Select any component on the canvas to edit its content via the **Property Controls** panel on the right.
-4. Customize text, upload your own images, tweak colors, and adjust layout properties visually.
+## Option 1: Framer Plugin (Easiest)
 
-## Note on Dependencies
-These components strictly rely on `framer` and `framer-motion`, which are built into Framer. No external npm packages are required.
+1. Build the Template Installer plugin:
+   ```bash
+   npm run plugin:build
+   ```
+
+2. In Framer, go to **Plugins** → **Install Plugin**
+3. Select the `plugin/dist` folder
+
+4. Click the plugin icon, select "Folio Portfolio", and click **Install**
+5. All components appear in your Assets panel automatically!
+
+## Option 2: Manual Import
+
+### 1. Project Setup in Framer
+
+1. Open your Framer project (or create a new one).
+2. Add fonts: **Inter** and **Playfair Display**.
+3. Create a new Code Component for each file in the `components` directory.
+
+### 2. Importing Components
+
+**Using the helper script:**
+```bash
+cd scripts
+node copy-components.js folio               # List components
+node copy-components.js folio ProjectGrid    # Copy specific component
+```
+
+**Or manually:**
+1. In Framer, go to **Assets** panel.
+2. Click the **+** button next to **Code** to create a new component.
+3. Name it exactly as the file (e.g., `Navbar`, `Hero`, `Button`).
+4. Paste the code from the corresponding `.tsx` file.
+
+**Important Order of Creation:**
+Create shared components first, as section components depend on them:
+1. `theme`
+2. `ThemeProvider`
+3. `Button`
+4. `Container`
+5. `SectionLabel`
+6. Main sections: `Navbar`, `Hero`, `ProjectGrid`, `ProjectDetail`, `About`, `Timeline`, `Contact`, `Footer`
+
+### 3. Assembling the Page
+
+1. Switch to **Pages** view.
+2. Open your target page.
+3. Set page background to `#fafafa` (light mode default).
+4. Drag and drop sections in order:
+   - `Navbar` → `Hero` → `ProjectGrid` → `ProjectDetail` → `About` → `Timeline` → `Contact` → `Footer`
+
+### 4. Light/Dark Mode
+
+The template includes a `ThemeProvider` component. To enable dark mode:
+1. Create the `ThemeProvider` component
+2. Add it at the top of your page (it wraps all content)
+3. The `Navbar` includes a toggle that switches themes
+
+### 5. Customizing Content
+
+Components use Framer's Property Controls. Edit content in the visual editor!
+
+1. Select a component on the canvas.
+2. Edit properties in the panel on the right.
+3. Change text, images, categories, and more.
+
+### Theme Colors (in theme.ts)
+
+**Light mode:**
+- background: `#fafafa`
+- surface: `#ffffff`
+- primary: `#171717`
+- text: `#171717`
+
+**Dark mode:**
+- background: `#0a0a0a`
+- surface: `#171717`
+- primary: `#fafafa`
+- text: `fafafa`
+
+## 6. Responsive Design
+
+Components adapt automatically:
+- Desktop: 1440px
+- Tablet: 768px
+- Mobile: 375px
+
+## Troubleshooting
+
+**Dark mode not working?**
+- Ensure `ThemeProvider` component is created and added to your page
+- Make sure it wraps all other content
+
+**Components not showing?**
+- Create shared components first (`theme`, `Button`, `Container`, `SectionLabel`, `ThemeProvider`)
+- Check import paths
+
+**Fonts look wrong?**
+- Add **Inter** and **Playfair Display** to your Framer project
+
+**Need help?**
+- Use `npm run list` to see all components
+- Check preview.html for visual reference

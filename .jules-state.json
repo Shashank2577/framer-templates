@@ -1,0 +1,24 @@
+{
+  "plan_file": null,
+  "repo": "Shashank2577/framer-templates",
+  "started_at": "2026-04-09T11:15:00Z",
+  "current_batch": 1,
+  "sessions": [
+    {
+      "task_id": "nexus-saas",
+      "title": "Build Nexus SaaS Template in Framer",
+      "session_id": "14378345787637085150",
+      "state": "IN_PROGRESS",
+      "url": "https://jules.google.com/session/14378345787637085150",
+      "pr_url": null
+    },
+    {
+      "task_id": "folio",
+      "title": "Build Folio Portfolio Template in Framer",
+      "session_id": "10275717928190358794",
+      "state": "IN_PROGRESS",
+      "url": "https://jules.google.com/session/10275717928190358794",
+      "pr_url": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "framer-template-installer",
+  "name": "Template Installer",
+  "description": "Install Framer templates from GitHub with one click",
+  "version": "1.0.0",
+  "modes": ["canvas"],
+  "icon": "/icon.svg",
+  "permissions": {
+    "codeFiles": {
+      "read": true,
+      "write": true
+    }
+  }
+}
